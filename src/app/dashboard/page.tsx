@@ -1,6 +1,5 @@
-import { redirect } from "next/navigation";
+import Link from "next/link";
 import { createClient } from "@/lib/supabase/server";
-import { logout } from "@/app/auth/actions";
 
 export default async function DashboardPage() {
   const supabase = await createClient();
@@ -9,28 +8,17 @@ export default async function DashboardPage() {
     data: { user },
   } = await supabase.auth.getUser();
 
-  if (!user) {
-    redirect("/login");
-  }
-
   const { data: profile } = await supabase
     .from("profiles")
     .select("*")
-    .eq("id", user.id)
+    .eq("id", user!.id)
     .single();
 
   return (
-    <main className="mx-auto flex min-h-screen max-w-2xl flex-col gap-6 px-4 py-12">
-      <div className="flex items-center justify-between">
-        <h1 className="text-2xl font-semibold">Dashboard</h1>
-        <form action={logout}>
-          <button type="submit" className="text-sm underline">
-            Log out
-          </button>
-        </form>
-      </div>
+    <>
+      <h1 className="text-2xl font-semibold">Overview</h1>
 
-      <p className="text-sm text-gray-600">Signed in as {user.email}</p>
+      <p className="text-sm text-gray-600">Signed in as {user!.email}</p>
 
       {profile && (
         <p className="text-sm text-gray-600">
@@ -39,9 +27,16 @@ export default async function DashboardPage() {
         </p>
       )}
 
+      <Link
+        href="/dashboard/availability"
+        className="w-fit rounded bg-black px-4 py-2 text-sm text-white"
+      >
+        Set your availability
+      </Link>
+
       <div className="rounded border border-dashed p-6 text-sm text-gray-500">
-        Availability settings and booking list are coming up next.
+        The booking list is coming up next.
       </div>
-    </main>
+    </>
   );
 }
