@@ -29,15 +29,19 @@ export default async function DashboardPage() {
         </p>
       )}
 
-      <Link
-        href="/dashboard/availability"
-        className="w-fit rounded bg-black px-4 py-2 text-sm text-white"
-      >
-        Set your availability
-      </Link>
-
-      <div className="rounded border border-dashed p-6 text-sm text-gray-500">
-        The booking list is coming up next.
+      <div className="flex gap-3">
+        <Link
+          href="/dashboard/availability"
+          className="w-fit rounded bg-black px-4 py-2 text-sm text-white"
+        >
+          Set your availability
+        </Link>
+        <Link
+          href="/dashboard/bookings"
+          className="w-fit rounded border px-4 py-2 text-sm"
+        >
+          View bookings
+        </Link>
       </div>
     </>
   );

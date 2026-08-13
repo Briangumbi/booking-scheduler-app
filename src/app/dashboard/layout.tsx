@@ -27,6 +27,9 @@ export default async function DashboardLayout({
           <Link href="/dashboard/availability" className="text-gray-600 hover:text-black">
             Availability
           </Link>
+          <Link href="/dashboard/bookings" className="text-gray-600 hover:text-black">
+            Bookings
+          </Link>
         </nav>
         <form action={logout}>
           <button type="submit" className="text-sm underline">
