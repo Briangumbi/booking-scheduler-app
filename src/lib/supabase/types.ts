@@ -98,7 +98,16 @@ export type Database = {
         ];
       };
     };
-    Views: Record<string, never>;
+    Views: {
+      busy_slots: {
+        Row: {
+          host_id: string;
+          start_time: string;
+          end_time: string;
+        };
+        Relationships: [];
+      };
+    };
     Functions: {
       create_booking: {
         Args: {

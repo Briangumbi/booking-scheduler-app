@@ -22,8 +22,10 @@ export default async function DashboardPage() {
 
       {profile && (
         <p className="text-sm text-gray-600">
-          Your public booking page will be at{" "}
-          <code className="rounded bg-gray-100 px-1 py-0.5">/book/{profile.slug}</code>
+          Your public booking page:{" "}
+          <Link href={`/book/${profile.slug}`} className="underline">
+            /book/{profile.slug}
+          </Link>
         </p>
       )}
 
