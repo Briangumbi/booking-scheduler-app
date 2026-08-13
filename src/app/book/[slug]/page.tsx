@@ -46,12 +46,12 @@ export default async function PublicBookingPage({
   });
 
   return (
-    <main className="mx-auto flex min-h-screen max-w-2xl flex-col gap-6 px-4 py-12">
-      <div>
-        <h1 className="text-2xl font-semibold">
+    <main className="mx-auto flex min-h-screen w-full max-w-2xl flex-1 flex-col gap-7 px-6 py-14">
+      <div className="flex flex-col gap-1.5">
+        <h1 className="text-[26px] font-bold tracking-[-0.02em]">
           Book time with {profile.full_name || profile.slug}
         </h1>
-        <p className="text-sm text-gray-500">Pick an open slot below.</p>
+        <p className="text-sm text-foreground-muted">Pick an open slot below.</p>
       </div>
 
       <BookingCalendar

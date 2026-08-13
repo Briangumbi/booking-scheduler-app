@@ -8,33 +8,41 @@ export default function SignupPage() {
   const [state, formAction, pending] = useActionState(signup, null);
 
   return (
-    <main className="mx-auto flex min-h-screen max-w-sm flex-col justify-center gap-6 px-4">
-      <h1 className="text-2xl font-semibold">Create your host account</h1>
+    <main className="mx-auto flex min-h-[80vh] w-full max-w-[380px] flex-1 flex-col justify-center gap-7 px-6">
+      <div className="flex flex-col gap-1.5">
+        <div className="mb-2 h-9 w-9 rounded-[10px] bg-primary" />
+        <h1 className="text-[26px] font-bold tracking-[-0.02em]">Create your host account</h1>
+        <p className="text-sm text-foreground-muted">Set your availability and start taking bookings.</p>
+      </div>
 
-      <form action={formAction} className="flex flex-col gap-4">
-        <label className="flex flex-col gap-1 text-sm">
+      <form
+        action={formAction}
+        className="flex flex-col gap-4 rounded-xl border border-border bg-card p-6 shadow-login"
+      >
+        <label className="flex flex-col gap-1.5 text-[13px] font-medium text-label">
           Full name
           <input
             type="text"
             name="fullName"
             required
             autoComplete="name"
-            className="rounded border px-3 py-2"
+            className="rounded-lg border border-border bg-input px-3 py-2.5 text-sm text-foreground"
           />
         </label>
 
-        <label className="flex flex-col gap-1 text-sm">
+        <label className="flex flex-col gap-1.5 text-[13px] font-medium text-label">
           Email
           <input
             type="email"
             name="email"
             required
             autoComplete="email"
-            className="rounded border px-3 py-2"
+            placeholder="you@company.com"
+            className="rounded-lg border border-border bg-input px-3 py-2.5 text-sm text-foreground"
           />
         </label>
 
-        <label className="flex flex-col gap-1 text-sm">
+        <label className="flex flex-col gap-1.5 text-[13px] font-medium text-label">
           Password
           <input
             type="password"
@@ -42,24 +50,25 @@ export default function SignupPage() {
             required
             minLength={8}
             autoComplete="new-password"
-            className="rounded border px-3 py-2"
+            placeholder="••••••••"
+            className="rounded-lg border border-border bg-input px-3 py-2.5 text-sm text-foreground"
           />
         </label>
 
-        {state?.error && <p className="text-sm text-red-600">{state.error}</p>}
+        {state?.error && <p className="text-sm text-danger">{state.error}</p>}
 
         <button
           type="submit"
           disabled={pending}
-          className="rounded bg-black px-3 py-2 text-white disabled:opacity-50"
+          className="mt-1 rounded-lg bg-primary py-[11px] text-sm font-semibold text-primary-foreground shadow-card disabled:opacity-50"
         >
           {pending ? "Creating account…" : "Sign up"}
         </button>
       </form>
 
-      <p className="text-sm">
+      <p className="text-center text-[13px] text-foreground-muted">
         Already have an account?{" "}
-        <Link href="/login" className="underline">
+        <Link href="/login" className="font-medium text-primary no-underline">
           Log in
         </Link>
       </p>

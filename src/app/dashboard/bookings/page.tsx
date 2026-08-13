@@ -51,27 +51,35 @@ export default async function BookingsPage() {
   ]);
 
   return (
-    <>
-      <h1 className="text-2xl font-semibold">Bookings</h1>
+    <div className="flex max-w-[640px] flex-col gap-8">
+      <h1 className="text-[26px] font-bold tracking-[-0.02em]">Bookings</h1>
 
-      <section className="flex flex-col gap-3">
-        <h2 className="text-lg font-medium">Upcoming</h2>
+      <section className="flex flex-col gap-3.5">
+        <h2 className="text-[15px] font-semibold">Upcoming</h2>
         {!upcoming || upcoming.length === 0 ? (
-          <p className="text-sm text-gray-500">No upcoming bookings.</p>
+          <p className="text-sm text-foreground-muted">No upcoming bookings.</p>
         ) : (
-          <ul className="flex flex-col divide-y">
-            {upcoming.map((booking) => (
-              <li key={booking.id} className="flex items-center justify-between gap-3 py-3">
-                <div>
-                  <p className="text-sm font-medium">
+          <ul className="overflow-hidden rounded-xl border border-border bg-card shadow-card">
+            {upcoming.map((booking, i) => (
+              <li
+                key={booking.id}
+                className={`flex items-center justify-between gap-3 px-5 py-4 ${
+                  i < upcoming.length - 1 ? "border-b border-border" : ""
+                }`}
+              >
+                <div className="flex min-w-0 flex-col gap-0.5">
+                  <p className="text-sm font-semibold">
                     {formatRange(booking.start_time, booking.end_time, timezone)}
                   </p>
-                  <p className="text-sm text-gray-500">
+                  <p className="truncate text-[13px] text-foreground-muted">
                     {booking.guest_name} · {booking.guest_email}
                   </p>
                 </div>
                 <form action={cancelBooking.bind(null, booking.id)}>
-                  <button type="submit" className="text-sm text-red-600 underline">
+                  <button
+                    type="submit"
+                    className="shrink-0 rounded-lg border border-border bg-input px-3.5 py-1.5 text-xs font-semibold text-danger"
+                  >
                     Cancel
                   </button>
                 </form>
@@ -81,25 +89,32 @@ export default async function BookingsPage() {
         )}
       </section>
 
-      <section className="flex flex-col gap-3">
-        <h2 className="text-lg font-medium">Past &amp; cancelled</h2>
+      <section className="flex flex-col gap-3.5">
+        <h2 className="text-[15px] font-semibold">Past &amp; cancelled</h2>
         {!past || past.length === 0 ? (
-          <p className="text-sm text-gray-500">Nothing here yet.</p>
+          <p className="text-sm text-foreground-muted">Nothing here yet.</p>
         ) : (
-          <ul className="flex flex-col divide-y">
-            {past.map((booking) => (
-              <li key={booking.id} className="flex items-center justify-between gap-3 py-3">
-                <div>
-                  <p className="text-sm font-medium">
+          <ul className="overflow-hidden rounded-xl border border-border bg-card shadow-card">
+            {past.map((booking, i) => (
+              <li
+                key={booking.id}
+                className={`flex items-center justify-between gap-3 px-5 py-4 ${
+                  i < past.length - 1 ? "border-b border-border" : ""
+                }`}
+              >
+                <div className="flex min-w-0 flex-col gap-0.5">
+                  <p className="text-sm font-semibold">
                     {formatRange(booking.start_time, booking.end_time, timezone)}
                   </p>
-                  <p className="text-sm text-gray-500">
+                  <p className="truncate text-[13px] text-foreground-muted">
                     {booking.guest_name} · {booking.guest_email}
                   </p>
                 </div>
                 <span
-                  className={`text-xs ${
-                    booking.status === "cancelled" ? "text-red-600" : "text-gray-400"
+                  className={`shrink-0 rounded-full px-2.5 py-1 text-xs font-semibold ${
+                    booking.status === "cancelled"
+                      ? "bg-danger-bg text-danger"
+                      : "bg-muted text-foreground-muted"
                   }`}
                 >
                   {booking.status === "cancelled" ? "Cancelled" : "Past"}
@@ -109,6 +124,6 @@ export default async function BookingsPage() {
           </ul>
         )}
       </section>
-    </>
+    </div>
   );
 }

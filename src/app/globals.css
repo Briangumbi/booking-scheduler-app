@@ -1,26 +1,60 @@
 @import "tailwindcss";
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --background: oklch(0.98 0.006 60);
+  --foreground: oklch(0.2 0.01 60);
+  --foreground-muted: oklch(0.52 0.02 60);
+  --label: oklch(0.35 0.01 60);
+  --subtle: oklch(0.68 0.015 60);
+  --card: oklch(1 0.003 60);
+  --input: oklch(0.995 0.004 60);
+  --border: oklch(0.91 0.01 60);
+  --muted: oklch(0.96 0.006 60);
+  --primary: oklch(0.64 0.18 35);
+  --primary-foreground: oklch(1 0 0);
+  --accent-soft: oklch(0.95 0.05 35);
+  --accent-soft-foreground: oklch(0.5 0.16 35);
+  --danger: oklch(0.5 0.19 25);
+  --danger-bg: oklch(0.95 0.04 25);
 }
 
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+  --color-foreground-muted: var(--foreground-muted);
+  --color-label: var(--label);
+  --color-subtle: var(--subtle);
+  --color-card: var(--card);
+  --color-input: var(--input);
+  --color-border: var(--border);
+  --color-muted: var(--muted);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-accent-soft: var(--accent-soft);
+  --color-accent-soft-foreground: var(--accent-soft-foreground);
+  --color-danger: var(--danger);
+  --color-danger-bg: var(--danger-bg);
+  --font-sans: var(--font-inter);
+  --shadow-card: 0 1px 2px oklch(0.2 0.02 60 / 0.04);
+  --shadow-login: 0 1px 2px oklch(0.2 0.02 60 / 0.04), 0 8px 24px oklch(0.2 0.02 60 / 0.06);
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background: var(--color-background);
+  color: var(--color-foreground);
+}
+
+::selection {
+  background: oklch(0.9 0.06 35);
+}
+
+::placeholder {
+  color: var(--color-subtle);
+}
+
+input:focus,
+select:focus,
+button:focus-visible {
+  outline: 2px solid var(--color-primary);
+  outline-offset: 1px;
 }
