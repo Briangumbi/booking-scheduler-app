@@ -6,6 +6,12 @@ database level; hosts get a dashboard to view/cancel bookings.
 
 Stack: Next.js (App Router) + Supabase (Postgres + Auth).
 
+**Live demo:** [booking-scheduler-app.vercel.app](https://booking-scheduler-app.vercel.app)
+
+Try it: there's no pre-populated demo host to browse yet, but you can sign up
+as a host yourself, set some weekly availability, and then open your own
+`/book/[slug]` page to try the guest booking flow end to end.
+
 ## Status
 
 Feature-complete for v1:
