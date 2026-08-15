@@ -6,7 +6,7 @@ A Calendly-style booking app: hosts set their availability, guests book a slot i
 
 **[booking-scheduler-app.vercel.app](https://booking-scheduler-app.vercel.app)**
 
-There's no pre-populated demo host to browse yet, so the way to try it right now is to **sign up as a host** yourself, set some weekly availability, and open your own `/book/[slug]` page to run through the guest booking flow too.
+Try it as a guest: book a real slot on the demo host's page at **[/book/alex-rivera](https://booking-scheduler-app.vercel.app/book/alex-rivera)** — no account needed. Or try it as a host: sign up yourself, set some weekly availability, and share your own `/book/[slug]` link.
 
 ## Preview
 
