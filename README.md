@@ -1,28 +1,94 @@
 # Booking Scheduler App
 
-A Calendly-style booking app. Hosts set weekly availability; guests pick an
-open slot on a public page and book it; double-booking is prevented at the
-database level; hosts get a dashboard to view/cancel bookings.
+A Calendly-style booking app: hosts set their availability, guests book a slot in seconds, no double-bookings possible.
 
-Stack: Next.js (App Router) + Supabase (Postgres + Auth).
+## Live demo
 
-**Live demo:** [booking-scheduler-app.vercel.app](https://booking-scheduler-app.vercel.app)
+**[booking-scheduler-app.vercel.app](https://booking-scheduler-app.vercel.app)**
 
-Try it: there's no pre-populated demo host to browse yet, but you can sign up
-as a host yourself, set some weekly availability, and then open your own
-`/book/[slug]` page to try the guest booking flow end to end.
+There's no pre-populated demo host to browse yet, so the way to try it right now is to **sign up as a host** yourself, set some weekly availability, and open your own `/book/[slug]` page to run through the guest booking flow too.
 
-## Status
+## Preview
 
-Feature-complete for v1:
+<!--
+  Drop screenshots into /docs with these exact filenames and they'll show up
+  here automatically. See the bottom of this README (or ask Claude) for
+  exactly which screens to capture.
+-->
 
-- Host auth — signup/login/logout, email confirmation, protected `/dashboard`
-- `/dashboard/availability` — weekly recurring hours + timezone/slot-length/
-  buffer settings
-- `/book/[slug]` — public booking page: real open slots (host rules minus
-  existing bookings), timezone-aware, booking form with race-condition
-  handling
-- `/dashboard/bookings` — upcoming/past/cancelled bookings, cancel action
+![Public booking page](./docs/screenshot-hero.png)
+
+| | |
+|---|---|
+| ![Host dashboard](./docs/screenshot-dashboard.png) | ![Availability settings](./docs/screenshot-availability.png) |
+| ![Bookings list](./docs/screenshot-bookings.png) | |
+
+## Features
+
+- **Hosts set weekly availability in a few clicks** — pick open hours per day, plus timezone, slot length, and buffer time between bookings
+- **Guests book instantly with no back-and-forth** — no account needed, just pick an open slot and enter a name and email
+- **Times always shown correctly** — the booking page converts the host's schedule into the guest's own local timezone automatically
+- **Race-condition-safe** — two people can never double-book the same slot, enforced by the database itself, not just app logic
+- **Hosts manage bookings from a dashboard** — see upcoming and past bookings, cancel with one click
+- **Secure by default** — every table is locked down with row-level security; guests can only ever see which times are busy, never other guests' names or emails
+
+## How to use
+
+**As a guest**
+1. Open a host's public link (`/book/their-slug`)
+2. Pick an open date and time
+3. Enter your name and email and confirm — you're booked
+
+**As a host**
+1. Sign up and confirm your email
+2. Set your weekly availability (hours, timezone, slot length) in the dashboard
+3. Share your public booking link with people
+4. View or cancel bookings from the dashboard as they come in
+
+## Project structure
+
+```
+src
+├── app
+│   ├── auth
+│   │   ├── actions.ts       # server actions: login, signup, logout
+│   │   └── confirm/         # email confirmation link handler
+│   ├── book
+│   │   └── [slug]/          # public guest-facing booking page
+│   ├── dashboard
+│   │   ├── availability/    # host: weekly hours + timezone/slot settings
+│   │   ├── bookings/        # host: view/cancel bookings
+│   │   ├── copy-link-button.tsx
+│   │   ├── layout.tsx       # sidebar nav + auth guard
+│   │   ├── page.tsx         # dashboard overview
+│   │   └── sidebar-nav.tsx
+│   ├── favicon.ico
+│   ├── globals.css          # design tokens (Tailwind v4 @theme)
+│   ├── layout.tsx           # root layout, Inter font
+│   ├── login/
+│   │   └── page.tsx
+│   ├── page.tsx              # homepage
+│   └── signup
+│       ├── check-email/     # post-signup confirmation notice
+│       └── page.tsx
+├── lib
+│   ├── availability.ts      # timezone-aware open-slot computation
+│   └── supabase
+│       ├── client.ts        # browser Supabase client
+│       ├── middleware.ts    # session refresh helper
+│       ├── server.ts        # server Supabase client
+│       └── types.ts         # hand-written DB types
+└── proxy.ts                  # Next.js 16 middleware (route auth guard)
+```
+
+## Tech stack
+
+- [Next.js](https://nextjs.org) 16.3.0 (App Router, Server Actions, Turbopack)
+- [React](https://react.dev) 19.2.8
+- [Supabase](https://supabase.com) — Postgres + Auth (`@supabase/supabase-js` 2.112.3, `@supabase/ssr` 0.12.4)
+- [date-fns](https://date-fns.org) 4.4.0 + [date-fns-tz](https://github.com/marnusw/date-fns-tz) 3.2.0 — timezone-correct slot math
+- [Tailwind CSS](https://tailwindcss.com) 4
+- TypeScript 5
 
 ## Setup
 
@@ -32,16 +98,13 @@ Feature-complete for v1:
    npm install
    ```
 
-2. Create a Supabase project, then copy `.env.example` to `.env.local` and
-   fill in the values from **Project Settings → API**:
+2. Create a Supabase project, then copy `.env.example` to `.env.local` and fill in the values from **Project Settings → API**:
 
    ```bash
    cp .env.example .env.local
    ```
 
-3. Apply the database schema: open the Supabase SQL Editor and run, in
-   order, everything under `supabase/migrations/` (or use the Supabase CLI
-   once the project is linked).
+3. Apply the database schema: open the Supabase SQL Editor and run, in order, everything under `supabase/migrations/` (or use the Supabase CLI once the project is linked).
 
 4. Run the dev server:
 
